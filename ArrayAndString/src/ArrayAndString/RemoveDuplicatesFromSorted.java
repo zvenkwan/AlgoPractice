@@ -1,3 +1,4 @@
+package ArrayAndString;
 /**
  * leetcode.com Q26
  * @author guanziwen

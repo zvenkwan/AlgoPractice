@@ -1,3 +1,4 @@
+package ArrayAndString;
 /**
  * leetcode 167. Two Sum II - Input array is sorted
  * @author guanziwen

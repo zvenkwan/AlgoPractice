@@ -1,3 +1,4 @@
+package ArrayAndString;
 /**
  * 159. Longest Substring with At Most Two Distinct Characters
  * Given a string, find the length of the longest substring T that contains at most 2 distinct characters.

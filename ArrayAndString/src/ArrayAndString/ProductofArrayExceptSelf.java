@@ -1,3 +1,4 @@
+package ArrayAndString;
 import java.util.Arrays;
 
 /**

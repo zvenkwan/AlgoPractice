@@ -1,3 +1,4 @@
+package ArrayAndString;
 import java.util.HashMap;
 /**
  * leetcode 3. Longest Substring Without Repeating Characters
