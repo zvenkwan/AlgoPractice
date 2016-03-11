@@ -24,43 +24,53 @@ confused what "{1,#,2,3}" means? > read more on how binary tree is serialized on
 public class BinaryTreeLevelOrderTraversalII {
 
 	public List<List<Integer>> levelOrderBottom(TreeNode root) {
-		List<List<TreeNode>> lt = new ArrayList<List<TreeNode>>();
-        List<TreeNode> ln = new ArrayList<TreeNode>();
-        List<List<Integer>> l = new ArrayList<List<Integer>>();
+		List<List<Integer>> l = new ArrayList<List<Integer>>();
         if(root==null)
         	return l;
+        List<TreeNode> ln = new ArrayList<TreeNode>();
         ln.add(root);
-        lt.add(ln);
-        while(ln.size()!=0) {
-        	List<TreeNode> lv = getNextLevelValues(ln);
-        	if(lv.size()!=0)
-        		lt.add(lv);
-        	ln=lv;
-        }
-        for(int i =lt.size()-1; i>=0; i--) {
-        	List<TreeNode> ltn = lt.get(i);
-        	List<Integer> ltv = new ArrayList<Integer>();
-        	for(TreeNode j:ltn) {
-        		ltv.add(j.val);
-        	}
-        	l.add(ltv);
-        }
+        getLevelValues(l, ln);
         return l;
     }
 	
-	public List<TreeNode> getNextLevelValues(List<TreeNode> ln) {
-		List<TreeNode> l = new ArrayList<TreeNode>();
+	public void getLevelValues(List<List<Integer>> l, List<TreeNode> ln) {
+		if(ln.size()==0)
+			return;
+		List<TreeNode> ltn = new ArrayList<TreeNode>();
+		List<Integer> lv = new ArrayList<Integer>();
 		for(TreeNode i:ln) {
+			lv.add(i.val);
 			if(i.left!=null) {
-				l.add(i.left);
+				ltn.add(i.left);
 			}
 			if(i.right!=null) {
-				l.add(i.right);
+				ltn.add(i.right);
 			}
 		}
-		System.out.println("there are "+l.size());
-		return l;
+		if(lv.size()!=0) {
+			l.add(0,lv);
+			getLevelValues(l, ltn);
+		}
+		return;
 	}
+	
+//	public List<TreeNode> getNextLevelNodes(List<TreeNode> ln) {
+//		List<TreeNode> ltn = new ArrayList<TreeNode>();
+//		List<Integer> lv = new ArrayList<Integer>();
+//		for(TreeNode i:ln) {
+//			if(i.left!=null) {
+//				ltn.add(i.left);
+//				lv.add(i.left.val);
+//			}
+//			if(i.right!=null) {
+//				ltn.add(i.right);
+//				lv.add(i.right.val);
+//			}
+//		}
+//		if(lv.size()!=0)
+//			this.l.add(0,lv);
+//		return ltn;
+//	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -73,7 +83,7 @@ public class BinaryTreeLevelOrderTraversalII {
 		tn1.right=tn3;
 		tn3.left=tn4;
 		tn3.right=tn5;
-		System.out.println(new BinaryTreeLevelOrderTraversalII().levelOrderBottom(null));
+		System.out.println(new BinaryTreeLevelOrderTraversalII().levelOrderBottom(tn1));
 	}
 
 }
