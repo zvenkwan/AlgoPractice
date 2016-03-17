@@ -3,9 +3,6 @@ package Math;
  * 231. Power of Two
  * @author zg55
  *Given an integer, write a function to determine if it is a power of two.
-
-Credits:
-Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
  */
 public class PowerofTwo {
     public boolean isPowerOfTwo(int n) {
@@ -16,7 +13,7 @@ public class PowerofTwo {
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int n = 256;
+		int n = 243;
 		String b = Integer.toBinaryString(n);
 		String c = Integer.toBinaryString(n-1);
 		System.out.println(b);
