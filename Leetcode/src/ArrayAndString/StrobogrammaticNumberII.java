@@ -1,4 +1,5 @@
 package ArrayAndString;
+import java.util.ArrayList;
 /**
  * 247. Strobogrammatic Number II
  * @author zg55
@@ -13,7 +14,6 @@ Hint:
 
 Try to use recursion and notice that it should recurse with n - 2 instead of n - 1.
  */
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
