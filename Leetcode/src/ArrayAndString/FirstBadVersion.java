@@ -17,6 +17,16 @@ Hide Similar Problems (M) Search for a Range (M) Search Insert Position
 
  */
 public class FirstBadVersion {
+//	add another method with iteration
+//    public int firstBadVersion(int n) {
+//        int l=1,r=n;
+//        while(l<r){
+//            int mid=l+((r-l)>>1);
+//            if (!isBadVersion(mid)) l = mid + 1;
+//            else r = mid;   
+//        }
+//        return l;
+//    }
     public int firstBadVersion(int n) {
         return firstBadVersion(1,n);
     }
