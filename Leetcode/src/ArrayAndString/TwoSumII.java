@@ -18,7 +18,6 @@ The return format had been changed to zero-based indices. Please read the above 
  */
 public class TwoSumII {
     public int[] twoSum(int[] nums, int target) {
-        int result[] = new int[2];
         HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
         for(int i=0; i< nums.length; i++) {
             if(hm.get(target-nums[i])!=null) {
