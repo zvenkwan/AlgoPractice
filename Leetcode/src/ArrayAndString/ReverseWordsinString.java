@@ -16,10 +16,8 @@ public class ReverseWordsinString {
         int fast = 0;
         while(fast<s.length){
         	if(s[fast]==' ') {
-        		if(slow!=fast-1) {
         			swapArray(s, slow, fast-1);
         			slow=fast+1;
-        		}
         	}
         	fast++;
         }
@@ -37,9 +35,10 @@ public class ReverseWordsinString {
 		}
 	}
 	public static void main(String args[]) {
-		String s = "the    sky  is blue";
+		String s = "this   is a test";
 		char[] c = s.toCharArray();
+		System.out.println("before calling: "+new String(c));
 		reverseWords(c);
-		System.out.println(c);
+		System.out.println("after calling: "+new String(c));
 	}
 }
