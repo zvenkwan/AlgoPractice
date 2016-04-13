@@ -17,6 +17,9 @@ public class MeetingRooms {
             if (intervals[i-1].end > intervals[i].start)
                 return false;
         return true;
+        
+//        or we can trade efficiency with space
+//        in this case create two arrays of starts and ends respectively
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
