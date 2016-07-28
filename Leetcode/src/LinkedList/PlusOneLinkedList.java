@@ -37,6 +37,7 @@ public class PlusOneLinkedList {
         }
         node.val+=carry;
         carry = node.val>9?1:0;
+        node.val%=10;
         return carry;
     }
 }
