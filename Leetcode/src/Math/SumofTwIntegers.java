@@ -18,6 +18,9 @@ Hide Similar Problems (M) Add Two Numbers
 public class SumofTwIntegers {
     public int getSum(int a, int b) {
         if(b == 0) return a;
+//        a^b add two numbers without carry
+//        a&b find the digit of both numbers are 1
+//        a&b <<1 change the number to carry and finally add those two numbers.
         return getSum(a^b, (a&b)<<1);
     }
 }
