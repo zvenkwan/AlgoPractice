@@ -50,8 +50,8 @@ public class KMP implements SubString{
 	}
 	
 	public static void main (String[] args) {
-		String target = "abcaby";
-		String source = "abcabcbasdbcbabcabacbcyabcabxyancbacda";
+		String target = "bcd";
+		String source = "abcdef";
 		int c = new KMP().searchString(source,target);
 		System.out.println(c);
 		
