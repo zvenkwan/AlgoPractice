@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class TreeNode {
@@ -32,6 +33,28 @@ public class TreeNode {
 		}
 		return root;
 	}
+	
+	public static void print(TreeNode root) {
+		if(root == null) {
+			System.out.println("Empty Tree");
+			return;
+		}
+		LinkedList<TreeNode> queue = new LinkedList<>();
+		ArrayList<Integer> list = new ArrayList<>();
+		queue.addFirst(root);
+		while(queue.size() != 0) {
+			TreeNode current = queue.removeFirst();
+			if(current == null) list.add(null);
+			else {
+				list.add(current.val);
+				queue.add(current.left);
+				queue.add(current.right);
+			}
+		}
+		while(list.get(list.size()-1) == null) list.remove(list.size()-1);
+		System.out.println(list);
+	}
+	
 	
 	public static void main(String[] args) {
 		Integer tree[] = {3,9,20,null,null,15,7};
