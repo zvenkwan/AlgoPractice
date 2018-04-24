@@ -84,7 +84,9 @@ public class WordLadder {
         return c == 1;
     }
     
-    
+    /*
+     * in case the set is too large and the string is short
+     */
     private ArrayList<String> nextWords(String curr) {
     	ArrayList<String> nextWords = new ArrayList<String>();
         for(char c = 'a'; c <= 'z'; c++) {
