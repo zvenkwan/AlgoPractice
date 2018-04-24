@@ -1,9 +1,36 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+/**
+ * 
+ * @author jguan
+ *120. Word Ladder 
+ Description
+ Notes
+ Testcase
+ Judge
+Discuss 
+Given two words (start and end), and a dictionary, find the length of shortest transformation sequence from start to end, such that:
 
+Only one letter can be changed at a time
+Each intermediate word must exist in the dictionary
+ Notice
+Return 0 if there is no such transformation sequence.
+All words have the same length.
+All words contain only lowercase alphabetic characters.
+Have you met this question in a real interview? 
+Example
+Given:
+start = "hit"
+end = "cog"
+dict = ["hot","dot","dog","lot","log"]
+As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+return its length 5.
+ */
 public class WordLadder {
 
 	public static void main(String[] args) {
@@ -26,22 +53,20 @@ public class WordLadder {
         Set<String> hash = new HashSet<>();
         queue.offer(start);
         hash.add(start);
-        int step = 1;
+        int step = 0;
         while(!queue.isEmpty()) {
             int size = queue.size();
             step++;
             for(int i = 0 ; i < size; i ++) {
                 String word = queue.poll();
-                for(String d: dict) {
-                	if(hash.contains(d)) continue;
-                    if(oneCharDiff(word, d)) {
-                        if(d.equals(end)) {
-                            return step;
-                        }
-                        queue.offer(d);
-                        hash.add(d);
-                    }
+                if(word.equals(end)) return step;
+                for(String next: nextWords(word)) {
+                	if(dict.contains(next) && !hash.contains(next)) {
+                		queue.offer(next);
+                		hash.add(next);
+                	}
                 }
+                
             }
         }
         return 0;
@@ -57,5 +82,20 @@ public class WordLadder {
             }
         }
         return c == 1;
+    }
+    
+    
+    private ArrayList<String> nextWords(String curr) {
+    	ArrayList<String> nextWords = new ArrayList<String>();
+        for(char c = 'a'; c <= 'z'; c++) {
+            for(int i=0;i < curr.length(); i++) {
+                nextWords.add(replace(curr, i, c));
+            }
+        }
+        return nextWords;
+    }
+    
+    private String replace(String curr, int i, char c) {
+        return curr.substring(0, i) + c + curr.substring(i+1);
     }
 }
