@@ -56,3 +56,9 @@ public class FirstBadVersion {
         return end;
     }
 }
+interface SVNRepo {
+	static boolean isBadVersion(int start) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}
