@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @author jguan
+ * Maximum Number in Mountain Sequence
+ *Given a mountain sequence of n integers which increase firstly and then decrease, find the mountain top.
+ */
 public class MaximumNumberinMountainSequence {
 
 	public int mountainSequence(int[] nums) {
