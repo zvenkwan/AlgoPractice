@@ -23,7 +23,6 @@ public class SingleNumberII {
      */
     public int singleNumberII(int[] A) {
         // write your code here
-        int[] bits = new int[32];
         int res = 0;
         for(int i = 0 ; i < 32; i++) {
             int sum = 0;
