@@ -1,6 +1,24 @@
 import java.util.LinkedList;
 import java.util.Queue;
+/**
+ * 
+ * @author jguan
+ *600. Smallest Rectangle Enclosing Black Pixels
+Description
+An image is represented by a binary matrix with 0 as a white pixel and 1 as a black pixel. The black pixels are connected, i.e., there is only one black region. Pixels are connected horizontally and vertically. Given the location (x, y) of one of the black pixels, return the area of the smallest (axis-aligned) rectangle that encloses all black pixels.
 
+Have you met this question in a real interview?  
+Example
+For example, given the following image:
+
+[
+  "0010",
+  "0110",
+  "0100"
+]
+and x = 0, y = 2,
+Return 6.
+ */
 public class SmallestRectangleEnclosingBlackPixels {
 
 	public static void main(String[] args) {
@@ -68,4 +86,95 @@ public class SmallestRectangleEnclosingBlackPixels {
 	        this.y = y;
 	    }
 	}
+	
+    /**
+     * @param image: a binary matrix with '0' and '1'
+     * @param x: the location of one of the black pixels
+     * @param y: the location of one of the black pixels
+     * @return: an integer
+     */
+	
+	//using binary search
+    public int minArea2(char[][] image, int x, int y) {
+        // write your code here
+        if(image == null || image.length == 0 || image[0].length == 0) return 0;
+        int row = image.length - 1;
+        int col = image[0].length - 1;
+        // find left most black
+        int left = findLeft(image, 0, y);
+        int right = findRight(image, y, col);
+        int top = findTop(image, 0, x);
+        int bottom = findBottom(image, x, row);
+        return (right - left + 1) * (bottom - top + 1);
+    }
+    
+    public boolean isColumnEmpty(char[][] image, int col) {
+        for(int r=0; r<image.length;r++) {
+            if(image[r][col] == '1') return false;
+        }
+        return true;
+    }
+    public boolean isRowEmpty(char[][] image, int row) {
+        for(int c=0; c<image[0].length;c++) {
+            if(image[row][c] == '1') return false;
+        }
+        return true;
+    }
+    
+    public int findLeft(char[][] image, int start, int end) {
+        while(start + 1 < end) {
+            int m = start + (end - start)/2;
+            if(isColumnEmpty(image, m)) {
+                start = m;
+            }
+            else {
+                end = m;
+            }
+        }
+        if(isColumnEmpty(image, start)) return end;
+        else return start;
+    }
+    
+    public int findRight(char[][] image, int start, int end) {
+        while(start + 1 < end) {
+            int m = start + (end - start)/2;
+            if(isColumnEmpty(image, m)) {
+                end = m;
+            } else {
+                start = m;
+            }
+        }
+        if(isColumnEmpty(image, end)) return start;
+        else return end;
+    }
+    
+    
+    public int findTop(char[][] image, int start, int end) {
+        while(start + 1 < end) {
+            int m = start + (end - start)/2;
+            if(isRowEmpty(image, m)) {
+                start = m;
+            }
+            else {
+                end = m;
+            }
+        }
+        if(isRowEmpty(image, start)) return end;
+        else return start;
+    }
+    
+    
+    public int findBottom(char[][] image, int start, int end) {
+        while(start + 1 < end) {
+            int m = start + (end - start)/2;
+            if(isRowEmpty(image, m)) {
+                end = m;
+            }
+            else {
+                start = m;
+            }
+        }
+        if(isRowEmpty(image, end)) return start;
+        else return end;
+    }
 }
