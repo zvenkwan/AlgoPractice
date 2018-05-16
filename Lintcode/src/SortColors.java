@@ -40,8 +40,8 @@ public class SortColors {
         int white_pointer = 0;
         int red_pointer = 0;
         int blue_pointer = nums.length - 1;
-        
-        while(red_pointer < blue_pointer) {
+     // check equals, or the last might be missed
+        while(red_pointer <= blue_pointer) {
             if(nums[red_pointer] == RED) {
                 swap(nums, red_pointer, white_pointer);
                 red_pointer++;
