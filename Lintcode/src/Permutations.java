@@ -1,6 +1,29 @@
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * 
+ * @author jguan
+ *15. Permutations
+Description
+Given a list of numbers, return all possible permutations.
 
+You can assume that there is no duplicate numbers in the list.
+
+Have you met this question in a real interview?  
+Example
+For nums = [1,2,3], the permutations are:
+
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+Challenge
+Do it without recursion.
+ */
 public class Permutations {
     public List<List<Integer>> permute(int[] nums) {
         // write your code here
