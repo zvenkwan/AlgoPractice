@@ -56,8 +56,6 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Thread t1 = new Thread(new MyFileReader(states));
-		t1.start();
 	}
 
 }
