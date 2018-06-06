@@ -1,4 +1,4 @@
-package stateranking.multithread;
+package stateranking.singlethread;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import stateranking.multithread.MyFileReader;
 
 public class Driver {
 
