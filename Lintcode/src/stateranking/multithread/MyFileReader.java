@@ -1,40 +1,50 @@
 package stateranking.multithread;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.concurrent.CountDownLatch;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyFileReader implements Runnable {
-
-	private RandomAccessFile raf;
-    private CountDownLatch doneSignal;
-    private final int bufLen = 256;
-    private String path;
-	private File file;
-	public MyFileReader(File f) {
-		file = f;
+	private Map<String, Integer> map;
+    private Path path;
+	public MyFileReader(Path path) {
+		this.path = path;
+		System.out.println("regular? " + Files.isRegularFile(path));
+		map = new HashMap<String, Integer>();
 	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
-		try {
-            raf = new RandomAccessFile(path,"rw");
-            raf.seek(0);
-            long contentLen = new File(path).length();
-            long times = contentLen / bufLen +1;
-            byte []buff = new byte[bufLen];
-            int hasRead = 0;
-            String result = null;
-            for(int i=0;i<times;i++){
-                hasRead = raf.read(buff);
-                if(hasRead < 0){
-                    break;
-                }
-                result = new String(buff,"gb2312");
-            }
-            doneSignal.countDown();
+		int edu = 0, pol = 0, spr = 0, agr = 0;
+		try (BufferedReader br = Files.newBufferedReader(path)){
+			String currentLine = null;
+			while((currentLine = br.readLine()) != null) {
+				String[] words = currentLine.toLowerCase().split("\\W+");
+				for(String word: words) {
+					switch(word) {
+					case "education":
+						edu++;
+						break;
+					case "politics":
+						pol++;
+						break;
+					case "sports":
+						spr++;
+						break;
+					case "agriculture":
+						agr++;
+						break;
+					}
+				}
+			}
+			map.put("education", edu);
+			map.put("politics", pol);
+			map.put("sports", spr);
+			map.put("agriculture", agr);
+			System.out.println(map);
         } catch (IOException e) {
             e.printStackTrace();
         }
