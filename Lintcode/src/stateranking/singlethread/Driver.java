@@ -10,12 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import stateranking.multithread.MyFileReader;
-
 public class Driver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		long start = System.nanoTime();
 		Path states = Paths.get("src\\stateranking\\states");
 		try {
 //			List<MyFileReader> readers = Files.list(states).map(path ->  new MyFileReader(path)).collect(Collectors.toList());
@@ -58,8 +57,13 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Thread t1 = new Thread(new MyFileReader(states));
-		t1.start();
+		long end = System.nanoTime();
+		System.out.println(end-start);
+//		1352056050
+//		1581773767
+//		1268533123
+//		785543667
+//		749898495
 	}
 
 }
