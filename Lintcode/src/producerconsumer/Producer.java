@@ -15,6 +15,7 @@ public class Producer implements Runnable{
 			try {
                 System.out.println("Produced: " + i);
 				queue.put(i);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

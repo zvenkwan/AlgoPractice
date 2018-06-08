@@ -8,13 +8,15 @@ public class Driver {
 
 		// Creating shared object
 		BlockingQueue<Integer> sharedQueue = new LinkedBlockingQueue<Integer>();
-
+		
 		// Creating Producer and Consumer Thread
-		Thread prodThread = new Thread(new Producer(sharedQueue));
-		Thread consThread = new Thread(new Consumer(sharedQueue));
+		Thread prodThread = new Thread(new Producer(sharedQueue), "producer");
+		Thread consThread = new Thread(new Consumer(sharedQueue), "consumer 1");
+		Thread consThread2 = new Thread(new Consumer(sharedQueue), "consumer 2");
 
 		// Starting producer and Consumer thread
 		prodThread.start();
 		consThread.start();
+		consThread2.start();
 	}
 }
