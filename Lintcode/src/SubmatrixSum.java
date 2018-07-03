@@ -1,6 +1,26 @@
 import java.util.HashMap;
 import java.util.Map;
+/**
+ * 
+ * @author jguan
+ *405. Submatrix Sum
+Description
+Given an integer matrix, find a submatrix where the sum of numbers is zero. Your code should return the coordinate of the left-up and right-down number.
 
+Have you met this question in a real interview?  
+Example
+Given matrix
+
+[
+  [1 ,5 ,7],
+  [3 ,7 ,-8],
+  [4 ,-8 ,9],
+]
+return [(1,1), (2,2)]
+
+Challenge
+O(n3) time.
+ */
 public class SubmatrixSum {
     public int[][] submatrixSum(int[][] matrix) {
         // write your code here
