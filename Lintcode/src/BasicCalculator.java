@@ -3,17 +3,18 @@ import java.util.ArrayDeque;
  * 
  * @author jguan
  *
-980. Basic Calculator II
+
+978. Basic Calculator
 Implement a basic calculator to evaluate a simple expression string.
 
-The expression string contains only non-negative integers, +, -, *, / operators and empty spaces . The integer division should truncate toward zero.
+The expression string may contain open ( and closing parentheses ), the plus + or minus sign -, non-negative integers and empty spaces .
 
 You may assume that the given expression is always valid.
 
 Example
-"3+2*2" = 7
-" 3/2 " = 1
-" 3+5 / 2 " = 5
+"1 + 1" = 2
+" 2-1 + 2 " = 3
+"(1+(4+5+2)-3)+(6+8)" = 23
 Notice
 Do not use the eval built-in library function.
  */
@@ -21,9 +22,10 @@ public class BasicCalculator {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String s = " 3/2 ";
+		String s = "(1+(4+5+2)-3)+(6+8)";
 		BasicCalculator bc = new BasicCalculator();
-		bc.calculate(s);
+		int r = bc.calculate(s);
+		System.out.println(r);
 	}
 
     /**
@@ -32,41 +34,66 @@ public class BasicCalculator {
      */
     public int calculate(String s) {
         // Write your code here
-        if(s == null || s.length() == 0) return 0;
         
-        ArrayDeque<Integer> stack = new ArrayDeque<Integer>();
-        int result = 0;
+        ArrayDeque<Character> operators = new ArrayDeque<Character>();
+        ArrayDeque<Integer> operands = new ArrayDeque<Integer>();
         int num = 0;
-        char prevSign = '+';
-        for(int i = 0 ; i < s.length(); i++) {
+        
+        for(int i = 0 ; i < s.length(); i ++) {
             char c = s.charAt(i);
             
             
             if(Character.isDigit(c)) {
-                num = Character.getNumericValue(c) + num * 10;
+                num = num * 10 + Character.getNumericValue(c);
             }
             
-            if(c == '+' || c == '-' || c == '*' || c == '/' || i + 1 == s.length()) {
-                // calculate when meet next sign
-                if(prevSign == '+') {
-                    stack.push(num);
-                } else if(prevSign == '-') {
-                    stack.push(-num);
-                } else if (prevSign == '*') {
-                    stack.push(stack.pop() * num);
-                } else if (prevSign == '/') {
-                    stack.push(stack.pop() / num);
+            if(c == '(' || c == '+' || c == '-' || c == '*' || c == '/' || c == ')' || i + 1 == s.length()) {
+            	
+            	char lastOp = operators.isEmpty() ? ' ' : operators.peek();
+                if(lastOp == '-') {
+                	num = -num;
+                	operators.pop();
+                	operators.push('+');
                 }
-                num = 0;
-                prevSign = c;
+                if(lastOp == '*' || lastOp == '/') {
+                	operators.pop();
+                    int last = operands.pop();
+                    if(c == '*') {
+                        num = last * num;
+                    }
+                    else {
+                        num = last / num;
+                    }
+                } else if(c == ')') {
+                	while (true) {
+                		char op = operators.pop();
+                		if(op == '(') break;
+                        int last = operands.pop();
+                        if(op == '+') {
+                        	num += last;
+                        } else {
+                        	num = last - num;
+                        }
+                    }
+                } else if(i + 1 == s.length()) {
+                    while(!operators.isEmpty()) {
+                    	operators.pop();
+                        int last = operands.pop();
+                        num += last;
+                    }
+                }
+                if(c != '(') {
+                	operands.push(num);
+                	num = 0;
+                }
+                if(c != ')') {
+                	operators.push(c);
+                	c = ' ';
+                }
             }
         }
         
-        while(!stack.isEmpty()) {
-            result += stack.pop();
-        }
-        
-        return result;
+        return operands.pop();
     }
     
 
