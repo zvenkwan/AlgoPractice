@@ -3,6 +3,22 @@ import java.util.List;
 /**
  * 
  * @author jguan
+ * 
+ * 
+ * 1612. Smallest Path
+Given a two-dimensional matrix, find the smallest path from top to bottom, .Only can move to the bottom left, down, bottom right
+
+Example
+[
+ 1, 2, 3
+ 4, 5, 6
+ 7, 8, 9
+]
+The smallest path:1->4->7, return 12.
+Notice
+1.All elements are positive integer
+ * 
+ * 
  *Given an NxN matrix, slice it and find the minimum slice weight.
 
 A slice consists of all the elements that are below, below right, or below left of the element above it. The Min Slice Weight is the minimum sum of all elements in the slice.
@@ -61,4 +77,39 @@ public class MinimumSliceWeight {
 		}
 		return min;
 	}
+	
+	
+    /**1612. Smallest Path
+     * @param matrix: 
+     * @return: Return the smallest path
+     */
+    public int smallestPath(int[][] matrix) {
+        // Write your code here
+        if(matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) return 0;
+        int[] pre = matrix[0];
+        int row = matrix.length;
+        for(int i = 1; i < row; i++) {
+            for(int j = 0 ; j < matrix[i].length; j++) {
+                int min = Integer.MAX_VALUE;
+                if(j == 0) {
+                    min = Math.min(pre[j], pre[j+1]);
+                }
+                else if(j == matrix[i].length - 1) {
+                    min = Math.min(pre[j], pre[j-1]);
+                }
+                else {
+                    min = Math.min(pre[j], pre[j+1]);
+                    min = Math.min(min, pre[j-1]);
+                }
+                matrix[i][j] += min;
+            }
+            pre = matrix[i];
+        }
+        
+        int res = Integer.MAX_VALUE;
+        for(int num : matrix[row - 1]) {
+            res = Math.min(res, num);
+        }
+        return res;
+    }
 }
