@@ -2,9 +2,68 @@ package interviews;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 /**
  * 
  * @author jguan
+ * 
+ * 1380. Log Sorting
+Give a log, consisting of List< String >, each element representing one line of logs. Each line of log information is separated by a space. The first is the ID of the log, followed by the log content.
+There are two ways to make content:
+
+All consist of letters and spaces.
+All consist of numbers and spaces.
+Now that the logs are sorted, it is required that component 1 be sorted in order of content lexicography and placed at the top, and component 2 should be placed at the bottom and output in the order of input. (Note that the space also belongs to the content, and when the lexicographic order of the composition method 1 is equal, sort according to the dictionary order of log ID., and the guarantee ID is not repeated)
+Example
+Given
+
+[
+    "zo4 4 7",
+    "a100 Act zoo",
+    "a1 9 2 3 1",
+    "g9 act car"
+]
+, return
+
+[
+    "a100 Act zoo",
+    "g9 act car",
+    "zo4 4 7",
+    "a1 9 2 3 1"
+]
+Explanation:
+"Act zoo" < "act car", So the output is as above.
+Given
+
+[
+    "zo4 4 7",
+    "a100 Actzoo",
+    "a100 Act zoo",
+    "Tac Bctzoo",
+    "Tab Bctzoo",
+    "g9 act car"
+]
+, return
+
+[
+    "a100 Act zoo",
+    "a100 Actzoo",
+    "Tab Bctzoo",
+    "Tac Bctzoo",
+    "g9 act car",
+    "zo4 4 7"
+]
+Explanation:
+Because "Bctzoo" == "Bctzoo", the comparison "Tab" and "Tac" have "Tab" < Tac ", so" Tab Bctzoo "< Tac Bctzoo".
+Because ' '<'z', so "A100 Act zoo" < A100 Actzoo".
+Notice
+The total number of logs entered was n, and n < = 10000.
+
+The length of each line is mi, and mi < = 100.
  *sort logs
  *log format [id val1 val2 val3....]
  *all numbers stay behind
@@ -13,7 +72,44 @@ import java.util.Collections;
 public class LogSorting {
 
 	public static void main(String[] args) {
-		String[] logs = {
+		String[] logs = null;
+//		String[] logs = {
+//				"[a1 9 2 3 1]",
+//				"[g1 act car]",
+//				"[zo4 4 7]",
+//				"[ab1 off key dog]",
+//				"[a8 act zoo]",
+//				"[a1 act zoo]",
+//				"[a1 9 2 5 1]"
+//		};
+		ArrayList<Log> list = new ArrayList<>();
+		for(String log : logs) {
+			list.add(new Log(log));
+		}
+		Collections.sort(list);
+		System.out.println(list);
+	}
+	
+    /**
+     * @param logs: the logs
+     * @return: the log after sorting
+     */
+    public String[] logSort(String[] logs) {
+        // Write your code here
+		ArrayList<Log> list = new ArrayList<>();
+    	for(String log : logs) {
+			list.add(new Log(log));
+		}
+		Collections.sort(list);
+		String[] res = new String[list.size()];
+		for(int i = 0; i < list.size(); i ++) {
+			res[i] = list.get(i).toString();
+		}
+		return res;
+    }
+    @Test
+    public void test() {
+    	String[] input = {
 				"[a1 9 2 3 1]",
 				"[g1 act car]",
 				"[zo4 4 7]",
@@ -22,13 +118,63 @@ public class LogSorting {
 				"[a1 act zoo]",
 				"[a1 9 2 5 1]"
 		};
-		ArrayList<Log> list = new ArrayList<>();
-		for(String log : logs) {
-			list.add(new Log(log));
-		}
-		Collections.sort(list);
-		System.out.println(list);
-	}
+    	
+    	String[] out = {
+				"[g1 act car]",
+				"[a1 act zoo]",
+				"[a8 act zoo]",
+				"[ab1 off key dog]",
+				"[zo4 4 7]",
+				"[a1 9 2 3 1]",
+				"[a1 9 2 5 1]"
+    	};
+    	
+    	Assert.assertArrayEquals(out, logSort(input));
+    }
+    @Test
+    public void testEmpty() {
+    	String[] input = {
+    	};
+    	
+    	String[] out = {
+    	};
+    	
+    	Assert.assertArrayEquals(out, logSort(input));
+    }
+    @Test
+    public void testOneElement() {
+    	String[] input = {
+				"[a1 9 2 5 1]"
+    	};
+    	
+    	String[] out = {
+				"[a1 9 2 5 1]"
+    	};
+    	
+    	Assert.assertArrayEquals(out, logSort(input));
+    }
+    @Test
+    public void testTwoSameElements() {
+    	String[] input = {
+    			"[a1 9 2 5 1]",
+    			"[a1 9 2 5 1]"
+    	};
+    	
+    	String[] out = {
+    			"[a1 9 2 5 1]",
+    			"[a1 9 2 5 1]"
+    	};
+    	
+    	Assert.assertArrayEquals(out, logSort(input));
+    }
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    @Test
+    public void testNull() {
+    	String[] input = null;
+    	exception.expect(NullPointerException.class);
+    	logSort(input);
+    }
 }
 
 class Log implements Comparable<Log> {
