@@ -24,6 +24,8 @@ public class ReverseLinkedList {
 //    	iteration
     	ListNode prev = null;
     	while(head != null) {
+//    		use temp to store the next node in the original
+//    		then reverse the curr, next point to prev
     		ListNode temp = head.next;
     		head.next = prev;
     		prev = head;
