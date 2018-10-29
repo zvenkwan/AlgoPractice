@@ -101,13 +101,15 @@ public class LRU {
         map.put(key, newNode);
         moveToTail(newNode);
     }
-
     public void test() {
     	set(1,1);set(2,2);set(3,3);set(4,4);
+    	print();
     	System.out.println("----------------");
     	get(4);
+    	print();
     	System.out.println("----------------");
     	get(3);
+    	print();
     	System.out.println("----------------");
     	get(2);
     	System.out.println("----------------");
@@ -117,81 +119,8 @@ public class LRU {
 
     	System.out.println("***************");
     	get(1);get(2);get(3);get(4);get(5);
+    	print();
     }
-    
-//    private void remove(Node node) {
-//    	if(map.containsKey(node.key)) {
-//    		map.remove(node.key);
-//    		
-//    		Node previous = node.prev;
-//    		Node next = node.next;
-//    		if(node == tail) tail = previous;
-//    		if(previous != null) previous.next = next;
-//    		if(next != null) next.prev = previous;
-//    		if(isHead(node)) head = next;
-//    		node.prev = null;
-//    		node.next = null;
-//    	}
-//    }
-//    
-//    private void insert(Node node) {
-//    	if(tail == null) {
-//    		head = node;
-//    	} else {
-//    		tail.next = node;
-//    		node.prev = tail;
-//    	}
-//    	tail = node;
-//    	map.put(node.key, node);
-//    }
-//    
-//    private boolean isHead(Node node) {
-//    	return head == node;
-//    }
-//    
-//    private void setHead(Node node) {
-//    	if(node != null) {
-//    		head = node;
-//    	}
-//    }
-//    // @return an integer
-//    public int get(int key) {
-//        // write your code here
-//        if(map.containsKey(key)) {
-//        	Node node = map.get(key);
-//        	if(tail == node) return node.value;
-//        	remove(node);
-////        	if(isHead(node)) setHead(node.next);
-//        	insert(node);
-//            print();
-//        	return node.value;
-//        }
-//        print();
-//        return -1;
-//    }
-//
-//    // @param key, an integer
-//    // @param value, an integer
-//    // @return nothing
-//    public void set(int key, int value) {
-//    	if(map.containsKey(key)) {
-//			System.out.println("found!!!");
-//    		Node node = map.get(key);
-//    		remove(node);
-//    		if(isHead(node)) setHead(node.next);
-//    		node.value = value;
-//    		insert(node);
-//    	} else {
-//    		Node node = new Node(key, value);
-//        	print();
-//    		insert(node);
-//    		if(map.size() > capacity) {
-//    			System.out.println("exceeded!!!");
-//	    		remove(head);
-//    		}
-//    	}
-//    	print();
-//    }
     
     private void print() {
     	if(head == null) {
