@@ -33,6 +33,8 @@ public class LowestCommonAncestorofaBinaryTree {
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode A, TreeNode B) {
         // write your code here
+    	
+//    	precondition: there always is a common 
         if(root == null || A == root || B == root) return root;
         
         TreeNode left = lowestCommonAncestor(root.left, A, B);
