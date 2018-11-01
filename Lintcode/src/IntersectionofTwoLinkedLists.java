@@ -33,13 +33,15 @@ public class IntersectionofTwoLinkedLists {
         // write your code here
         ListNode pa = headA;
         ListNode pb = headB;
-        
+//        when pa == pb, they either meet at the intersection, or both come to the end
         while(pa != pb) {
+//        	when pa comes to the end of list, let it start from beginning of listB
             if(pa == null && pb != null) {
                 pa = headB;
                 pb = pb.next;
                 continue;
             }
+//        	when pb comes to the end of list, let it start from beginning of listA
             if(pb == null && pa != null) {
                 pb = headA;
                 pa = pa.next;
