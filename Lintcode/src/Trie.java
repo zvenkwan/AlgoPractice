@@ -76,12 +76,11 @@ public class Trie {
         }
         return true;
     }
-}
-
-class TrieNode {
-    boolean hasWord;
-    TrieNode[] children;
-    public TrieNode() {
-        children = new TrieNode[26];
+    private class TrieNode {
+    	boolean hasWord;
+    	TrieNode[] children;
+    	public TrieNode() {
+    		children = new TrieNode[26];
+    	}
     }
 }
