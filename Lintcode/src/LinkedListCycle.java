@@ -30,5 +30,25 @@ public class LinkedListCycle {
             fast = fast.next.next;
         }
         return fast != null;
+        
+        
+
+        // write your code here
+//        if(head == null) return false;
+//        
+//        ListNode slow = head;
+//        ListNode fast = head;
+//        
+//        do {
+//            slow = slow.next;
+//            if(fast.next != null) {
+//                fast = fast.next.next;
+//            }
+//            if(slow == fast) return true;
+//        } while(fast != null && fast.next != null);
+//        
+//        return fast == slow;
+        
+    
     }
 }

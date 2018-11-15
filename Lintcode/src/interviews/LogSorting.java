@@ -2,6 +2,8 @@ package interviews;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -106,6 +108,51 @@ public class LogSorting {
 			res[i] = list.get(i).toString();
 		}
 		return res;
+    }
+    
+    /**
+     * @param logs: the logs
+     * @return: the log after sorting
+     */
+    public String[] logSort2(String[] logs) {
+        // Write your code here
+        if(logs == null||logs.length == 0) return null;
+        
+        List<String> list = new ArrayList<String>();
+        String [] ans = new String[logs.length];
+        int cnt = logs.length - 1;
+        for(int i = logs.length - 1; i >= 0; i--) {
+            int index = logs[i].indexOf(' ');
+            String body = logs[i].substring(index + 1);
+            if(body.charAt(0) >= '0' && body.charAt(0) <= '9') {
+                ans[cnt--] = logs[i];
+            } else {
+                list.add(new String(logs[i]));
+            }
+        }
+        Collections.sort(list, new Comparator<String>(){
+            @Override
+            public int compare(String o1, String o2) {
+                int idx1 = o1.indexOf(' ');
+                int idx2 = o2.indexOf(' ');
+                String head1 = o1.substring(0, idx1);
+                String head2 = o2.substring(0, idx2);
+                String body1 = o1.substring(idx1);
+                String body2 = o2.substring(idx2);
+                if(body1.equals(body2)) {
+                    return head1.compareTo(head2);
+                } else {
+                    return body1.compareTo(body2);
+                }
+            }
+            
+        });
+        
+        cnt = 0;
+        for(String i: list) {
+            ans[cnt++] = i; 
+        }
+        return ans;
     }
     @Test
     public void test() {
