@@ -1,3 +1,5 @@
+package interviews.amz;
+
 import java.util.HashMap;
 import java.util.HashSet;
 /**
