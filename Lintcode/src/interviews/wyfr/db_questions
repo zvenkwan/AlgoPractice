@@ -1,0 +1,21 @@
+difference between inner join and outer join
+
+	inner join displays records only exist in both tables
+	outer join displays records in both tables
+	
+employee 
+   id
+   firstname
+   lastname
+   department_id
+
+
+department
+  id
+  name
+
+还有其他的表，但是问我的题只设计了这两个表。
+  1. 找到department name是“marketing”的所有员工的firstname，lastname（这个很简单不说了）
+  select emp.firstname, emp.lastname from employee emp, department dept where emp.did = dept.id and dept.name = "marketing"
+  2. 找到所有员工数为0的department的名字。（这个我用left join做的）
+  select dept.name from department left join employee on dept.did = emp.did where emp.did is null 

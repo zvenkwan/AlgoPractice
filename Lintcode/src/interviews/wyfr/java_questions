@@ -1,0 +1,5 @@
+difference between abstract class and interface
+
+	abstract class: can extend one class, variables can be non public, non static, non final, methods can be non public
+	interface: can implement multiple interfaces, variables are public static final, methods are public even the default method
+	
