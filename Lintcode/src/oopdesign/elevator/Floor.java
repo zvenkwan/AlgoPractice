@@ -7,14 +7,14 @@ public class Floor {
 	public Floor(int level) {
 		this.level = level;
 		btns = new FloorButton[2];
-		btns[0] = new FloorButton(Direction.up);
-		btns[1] = new FloorButton(Direction.down);
+		btns[0] = new FloorButton(level, Direction.up);
+		btns[1] = new FloorButton(level, Direction.down);
 	}
 	
 	public Floor(int level, Direction dir) {
 		this.level = level;
 		btns = new FloorButton[1];
-		btns[0] = new FloorButton(dir);
+		btns[0] = new FloorButton(level, dir);
 	}
 	public int getLevel() {
 		return level;

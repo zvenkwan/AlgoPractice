@@ -1,10 +1,17 @@
 package oopdesign.elevator;
 
-public class User {
+public class User implements Runnable {
 	private String name;
-	
+	private Direction dir;
 	private Floor currentFloor;
 	
+	public User(String name, Floor currentFloor, Direction dir) {
+		super();
+		this.name = name;
+		this.currentFloor = currentFloor;
+		this.dir = dir;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -21,12 +28,15 @@ public class User {
 		this.currentFloor = currentFloor;
 	}
 
-	public void pressButton(Floor currentFloor, Direction dir) {
-		FloorButton fb = currentFloor.getBtns()[dir.getValue()];
+	public void pressButton() {
+		FloorButton fb = currentFloor.getBtns()[Math.min(currentFloor.getBtns().length - 1, dir.getValue())];
+		System.out.println(fb.getLevel() + " " + dir + " was pressed.");
 		fb.pressed();
 	}
-	
-	public void pickUp(int currentFloor) {
-		
+
+	@Override
+	public void run() {
+		pressButton();
 	}
+	
 }

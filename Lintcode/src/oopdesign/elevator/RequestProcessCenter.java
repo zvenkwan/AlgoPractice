@@ -1,16 +1,22 @@
 package oopdesign.elevator;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class RequestProcessCenter implements Runnable {
 
 	private static RequestProcessCenter instance = null;
-	private LinkedList<FloorRequest> queue;
+	private BlockingQueue<FloorRequest> queue;
 	private ArrayList<Elevator> elevators;
 	private RequestProcessCenter() {
-		queue = new LinkedList<FloorRequest>();
+		queue = new LinkedBlockingQueue<FloorRequest>();
 		elevators = new ArrayList<Elevator>();
+		Elevator el1 = new Elevator("No1");
+		elevators.add(el1);
+		Thread el1t = new Thread(el1);
+		el1t.start();
 	}
 	
 	public static RequestProcessCenter getInstance() {
@@ -29,27 +35,34 @@ public class RequestProcessCenter implements Runnable {
 	}
 
 	private void processRequestInQueue() {
-		// TODO Auto-generated method stub
+		if(!queue.isEmpty()) {
+			FloorRequest frq = queue.poll();
+			processFloorRequest(frq);
+		} else {
+			try {
+				TimeUnit.SECONDS.sleep(2);
+				System.out.println(" no floor request for now, waiting");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
-
-	public void removeRequest(FloorRequest request) {
-		queue.remove(request);
-	}
-
 
 	public void processFloorRequest(FloorRequest floorRequest) {
 		Elevator el = findElevator(floorRequest);
 		
 		if(el == null) {
+			System.out.println("can not find elevators!");
 			queuingFloorRequest(floorRequest);
 		}
 		
 		el.takeFloorRequest(floorRequest);
 	}
 
-	private void queuingFloorRequest(FloorRequest floorRequest) {
-		System.out.println("can not find elevators!");
+	public void queuingFloorRequest(FloorRequest floorRequest) {
+		System.out.println(" add request  to queue");
 		queue.offer(floorRequest);
 	}
 

@@ -27,7 +27,7 @@ public class FloorRequest {
 
 	public void send() {
 		RequestProcessCenter rpc = RequestProcessCenter.getInstance();
-		rpc.processFloorRequest(this);
+		rpc.queuingFloorRequest(this);
 	}
 
 }

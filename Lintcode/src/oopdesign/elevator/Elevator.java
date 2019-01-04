@@ -2,7 +2,7 @@ package oopdesign.elevator;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Elevator implements Runnable {
@@ -10,17 +10,18 @@ public class Elevator implements Runnable {
 	private int floorLevel;
 	private Direction dir;
 	private HashSet<Integer> nonService;
-	private PriorityQueue<Integer> upStops;
-	private PriorityQueue<Integer> downStops;
+	private PriorityBlockingQueue<Integer> upStops;
+	private PriorityBlockingQueue<Integer> downStops;
 	private long secondsOneFloor;
 	
 	public Elevator(String label) {
 		this.dir = Direction.wait;
 		nonService = new HashSet<Integer>();
-		upStops = new PriorityQueue<Integer>();
-		downStops = new PriorityQueue<Integer>(Collections.reverseOrder());
+		upStops = new PriorityBlockingQueue<Integer>();
+		downStops = new PriorityBlockingQueue<Integer>(10, Collections.reverseOrder());
 		this.label = label;
-		this.secondsOneFloor = 2000;
+		this.secondsOneFloor = 2;
+		this.floorLevel = 1;
 	}
 	
 	public int getFloorLevel() {
@@ -37,17 +38,9 @@ public class Elevator implements Runnable {
 		this.dir = Direction.up;
 		System.out.println(label + " moving up");
 		while(!upStops.isEmpty()) {
-			try {
-				TimeUnit.SECONDS.sleep(3);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			setFloorLevel(this.floorLevel + 1);
-			if(this.floorLevel == upStops.peek()) {
-				upStops.poll();
-				stop();
-			}
+			moveToFloor(upStops.peek());
+			upStops.poll();
+			stop();
 		}
 	}
 
@@ -55,18 +48,36 @@ public class Elevator implements Runnable {
 		this.dir = Direction.down;
 		System.out.println(label + " moving down");
 		while(!downStops.isEmpty()) {
+			moveToFloor(downStops.peek());
+			downStops.poll();
+			stop();
+		}
+	}
+	
+	public void moveToFloor(int floorLevel) {
+		int diff = floorLevel - this.floorLevel;
+		if(diff == 0) {
+			this.setDirection(Direction.wait);
+			return;
+		} else if(diff > 0) {
+			this.setDirection(Direction.up);
+			diff = 1;
+		} else {
+			this.setDirection(Direction.down);
+			diff = -1;
+		}
+		
+		while(this.floorLevel != floorLevel) {
 			try {
-				TimeUnit.SECONDS.sleep(3);
+				System.out.println(label + " start moving current at " + this.floorLevel);
+				TimeUnit.SECONDS.sleep(secondsOneFloor);
+				setFloorLevel(this.floorLevel + diff);
+				System.out.println(label + " arrived at " + this.floorLevel);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			setFloorLevel(this.floorLevel - 1);
-			if(this.floorLevel == downStops.peek()) {
-				upStops.poll();
-				stop();
-			}
 		}
+		System.out.println(label + " arrived at " + this.floorLevel);
 	}
 	
 	public void stop() {
@@ -88,6 +99,12 @@ public class Elevator implements Runnable {
 	private void waitForUsers() {
 		this.setDirection(Direction.wait);
 		System.out.println(label + " waiting for users ");
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void closeDoor() {
@@ -99,12 +116,15 @@ public class Elevator implements Runnable {
 	}
 
 	public void takeFloorRequest(FloorRequest floorRequest) {
+		System.out.println(this.label + " will take this request to " + floorRequest.getToFloor());
 		if(floorRequest.getDirection() == Direction.up) {
 			upStops.add(floorRequest.getToFloor());
+			System.out.println(" there are " + upStops.size() +" stop requests in the up");
 		}
 		
 		if(floorRequest.getDirection() == Direction.down) {
 			downStops.add(floorRequest.getToFloor());
+			System.out.println(" there are " + downStops.size() +" stop requests in the down");
 		}
 	}
 	
@@ -122,11 +142,13 @@ public class Elevator implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("Elevator " + label + " starting");
 		while(true) {
 			if(upStops.isEmpty() && downStops.isEmpty()) {
 				waitForUsers();
 			}
 			if(this.getDirection() == Direction.wait) {
+				System.out.println("Elevator " + label + " waiting");
 				if(!upStops.isEmpty()) {
 					moveUp();
 				}
@@ -135,11 +157,13 @@ public class Elevator implements Runnable {
 					moveDown();
 				}
 			} else if(this.getDirection() == Direction.up) {
+				System.out.println("Elevator " + label + " moving up");
 				if(!upStops.isEmpty()) {
 					moveUp();
 				}
 			} else {
 				if(!downStops.isEmpty()) {
+					System.out.println("Elevator " + label + " moving down");
 					moveDown();
 				}
 			}
