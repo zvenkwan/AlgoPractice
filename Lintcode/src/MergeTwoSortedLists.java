@@ -20,50 +20,34 @@ public class MergeTwoSortedLists {
 		System.out.println(l3);
 	}
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        // write your code here
-//        if(l1 == null) return l2;
-//        if(l2 == null) return l1;
-//        ListNode prev = new ListNode(Integer.MIN_VALUE);
-//        ListNode dummy = prev;
-//        prev.next = l1;
-//        while(l1 != null && l2 != null) {
-//            if(prev.val <= l2.val && l2.val < l1.val) {
-//                prev.next = l2;
-//                ListNode temp2 = l2.next;
-//                l2.next = l1;
-//                l2 = temp2;
-//            }
-//            prev = l1;
-//            l1 = l1.next;
-//        }
-//        if(l1 == null)
-//            prev.next = l2;
-//        return dummy.next;
-    	
-    	if(l1 == null && l2 == null) return null;
-        ListNode p1 = l1;
-        ListNode p2 = l2;
+        // recursion, O(n) time and O(n) space
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        // if(l1.val < l2.val) {
+        //     l1.next = mergeTwoLists(l1.next, l2);
+        //     return l1;
+        // } else {
+        //     l2.next = mergeTwoLists(l1, l2.next);
+        //     return l2;
+        // }
+        
+        // iteration
         ListNode dummy = new ListNode(0);
         ListNode prev = dummy;
-        while(p1 != null && p2 != null) {
-            if(p1.val < p2.val) {
-                prev.next = p1;
-                p1 = p1.next;
+        while(l1 != null && l2 != null) {
+            if(l1.val < l2.val) {
+                prev.next = l1;
+                l1 = l1.next;
             } else {
-                prev.next = p2;
-                p2 = p2.next;
+                prev.next = l2;
+                l2 = l2.next;
             }
             prev = prev.next;
         }
-        while(p1 != null) {
-            prev.next = p1;
-            p1 = p1.next;
-            prev = prev.next;
-        }
-        while(p2 != null) {
-            prev.next = p2;
-            p2 = p2.next;
-            prev = prev.next;
+        if(l1 != null) {
+            prev.next = l1;
+        } else {
+            prev.next = l2;
         }
         return dummy.next;
     }
